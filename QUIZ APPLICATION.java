@@ -76,3 +76,25 @@ public class QuizApplication {
                     System.out.println("✘ Incorrect. Correct answer was: " + q.correctAnswer + "\n");
                     summary.add("Q" + number + ": ✘");
                 }
+                answered = true;
+            }
+        } catch (InputMismatchException e) {
+            if (!answered) {
+                System.out.println("Invalid input! Skipping question.\n");
+                summary.add("Q" + number + ": ✘ (Invalid input)");
+                scanner.next(); // clear invalid input
+                answered = true;
+            }
+        }
+
+        // Wait for a moment to ensure the timer doesn't run after the answer
+        try {
+            Thread.sleep(500); // short delay
+        } catch (InterruptedException e) {
+            // ignore
+        }
+
+        // Make sure the timer is cancelled after answering
+        timer.cancel();
+    }
+}
